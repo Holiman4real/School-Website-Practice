@@ -171,7 +171,7 @@ export const AdmissionsPageSection: React.FC<AdmissionsPageSectionProps> = ({ on
 
               <div className="pt-2">
                 <p className="text-xs text-slate-300 leading-relaxed italic">
-                  Have questions regarding fee structure or payment installment options? Call our office at 0703 2036 495.
+                  Have questions regarding fee structure or payment installment options? Call our office at {SCHOOL_INFO.phones.join(' or ')}.
                 </p>
               </div>
             </div>

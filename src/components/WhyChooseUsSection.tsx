@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'motion/react';
 import { WHY_CHOOSE_US } from '../data/schoolData';
 import { GraduationCap, ShieldCheck, Sparkles, HeartHandshake, Award, BookOpenCheck } from 'lucide-react';
 
@@ -23,9 +24,15 @@ export const WhyChooseUsSection: React.FC = () => {
   };
 
   return (
-    <section className="py-16 bg-white">
+    <section className="py-16 bg-white overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-3xl mx-auto mb-12">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-50px' }}
+          transition={{ duration: 0.6 }}
+          className="text-center max-w-3xl mx-auto mb-12"
+        >
           <span className="inline-block bg-blue-100 text-blue-900 text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full mb-3 border border-blue-200">
             Our Key Pillars
           </span>
@@ -35,13 +42,18 @@ export const WhyChooseUsSection: React.FC = () => {
           <p className="mt-3 text-base text-slate-600">
             Equipping your children for the rapidly changing world through holistic academic and moral nurturing.
           </p>
-        </div>
+        </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {WHY_CHOOSE_US.map((item, index) => (
-            <div
+            <motion.div
               key={index}
-              className="p-8 rounded-2xl bg-slate-50 border border-slate-200 hover:border-blue-500/40 hover:bg-white hover:shadow-xl transition-all duration-300 group"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-40px' }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              whileHover={{ y: -6, scale: 1.01 }}
+              className="p-8 rounded-2xl bg-slate-50 border border-slate-200 hover:border-blue-500/40 hover:bg-white hover:shadow-xl transition-all duration-300 group cursor-default"
             >
               <div className="w-14 h-14 rounded-2xl bg-white border border-slate-200 flex items-center justify-center mb-6 group-hover:scale-110 shadow-xs transition-transform">
                 {getIcon(item.iconName)}
@@ -52,7 +64,7 @@ export const WhyChooseUsSection: React.FC = () => {
               <p className="text-sm text-slate-600 leading-relaxed">
                 {item.description}
               </p>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>

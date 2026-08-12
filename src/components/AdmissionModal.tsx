@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 import { ClassCategory, AdmissionFormData } from '../types';
 import { SCHOOL_INFO } from '../data/schoolData';
 import { X, GraduationCap, CheckCircle2, AlertCircle, Loader2, Phone, Copy } from 'lucide-react';
@@ -29,8 +30,6 @@ export const AdmissionModal: React.FC<AdmissionModalProps> = ({ isOpen, onClose,
     message: string;
   } | null>(null);
   const [copied, setCopied] = useState(false);
-
-  if (!isOpen) return null;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -131,9 +130,28 @@ export const AdmissionModal: React.FC<AdmissionModalProps> = ({ isOpen, onClose,
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/70 backdrop-blur-xs overflow-y-auto">
-      <div className="bg-white w-full max-w-2xl rounded-2xl shadow-2xl border border-slate-100 overflow-hidden my-8 animate-in fade-in zoom-in-95 duration-200">
-        {/* Header Banner */}
+    <AnimatePresence>
+      {isOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 overflow-y-auto">
+          {/* Backdrop */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.25 }}
+            onClick={onClose}
+            className="fixed inset-0 bg-slate-950/75 backdrop-blur-xs"
+          />
+
+          {/* Modal Container */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.94, y: 16 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.94, y: 16 }}
+            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+            className="relative bg-white w-full max-w-2xl rounded-2xl shadow-2xl border border-slate-100 overflow-hidden my-8 z-10"
+          >
+            {/* Header Banner */}
         <div className="bg-gradient-to-r from-blue-900 via-blue-800 to-red-700 text-white p-6 relative">
           <button
             onClick={onClose}
@@ -392,7 +410,9 @@ export const AdmissionModal: React.FC<AdmissionModalProps> = ({ isOpen, onClose,
             </form>
           )}
         </div>
-      </div>
+      </motion.div>
     </div>
+  )}
+</AnimatePresence>
   );
 };

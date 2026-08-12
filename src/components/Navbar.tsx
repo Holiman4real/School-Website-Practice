@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 import { NavigationPage } from '../types';
 import { SCHOOL_INFO, LOGO_IMAGE } from '../data/schoolData';
 import { Phone, Mail, MapPin, Menu, X, GraduationCap, Sparkles } from 'lucide-react';
@@ -144,46 +145,54 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPage, onNavigate, onOpenA
       </div>
 
       {/* Mobile Drawer Menu */}
-      {mobileMenuOpen && (
-        <div className="md:hidden bg-white border-b border-slate-200 px-4 pt-2 pb-6 shadow-xl animate-in slide-in-from-top-2 duration-200">
-          <div className="flex flex-col space-y-2">
-            {navLinks.map((link) => {
-              const isActive = currentPage === link.id;
-              return (
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0, y: -10 }}
+            animate={{ opacity: 1, height: 'auto', y: 0 }}
+            exit={{ opacity: 0, height: 0, y: -10 }}
+            transition={{ duration: 0.25, ease: 'easeInOut' }}
+            className="md:hidden bg-white border-b border-slate-200 px-4 pt-2 pb-6 shadow-xl overflow-hidden"
+          >
+            <div className="flex flex-col space-y-2">
+              {navLinks.map((link) => {
+                const isActive = currentPage === link.id;
+                return (
+                  <button
+                    key={link.id}
+                    onClick={() => handleNavClick(link.id)}
+                    className={`text-left px-4 py-3 rounded-lg text-base font-semibold transition-colors cursor-pointer ${
+                      isActive
+                        ? 'bg-blue-950 text-white font-bold'
+                        : 'text-slate-700 hover:bg-slate-100 hover:text-blue-900'
+                    }`}
+                  >
+                    {link.label}
+                  </button>
+                );
+              })}
+              <div className="pt-4 border-t border-slate-100 flex flex-col gap-3">
                 <button
-                  key={link.id}
-                  onClick={() => handleNavClick(link.id)}
-                  className={`text-left px-4 py-3 rounded-lg text-base font-semibold transition-colors ${
-                    isActive
-                      ? 'bg-blue-950 text-white font-bold'
-                      : 'text-slate-700 hover:bg-slate-100 hover:text-blue-900'
-                  }`}
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    onOpenApplyModal();
+                  }}
+                  className="w-full flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 text-white text-base font-bold py-3 rounded-xl shadow-md cursor-pointer"
                 >
-                  {link.label}
+                  <GraduationCap className="w-5 h-5" />
+                  <span>Register Your Child Today</span>
                 </button>
-              );
-            })}
-            <div className="pt-4 border-t border-slate-100 flex flex-col gap-3">
-              <button
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  onOpenApplyModal();
-                }}
-                className="w-full flex items-center justify-center gap-2 bg-red-600 text-white text-base font-bold py-3 rounded-xl shadow-md"
-              >
-                <GraduationCap className="w-5 h-5" />
-                <span>Register Your Child Today</span>
-              </button>
-              <div className="text-xs text-slate-500 text-center space-y-1 pt-1">
-                <p className="flex items-center justify-center gap-1">
-                  <MapPin className="w-3.5 h-3.5 text-blue-600" /> Lugbe, Airport Road, Abuja
-                </p>
-                <p>Call: {SCHOOL_INFO.phones.join(' | ')}</p>
+                <div className="text-xs text-slate-500 text-center space-y-1 pt-1">
+                  <p className="flex items-center justify-center gap-1">
+                    <MapPin className="w-3.5 h-3.5 text-blue-600" /> Lugbe, Airport Road, Abuja
+                  </p>
+                  <p>Call: {SCHOOL_INFO.phones.join(' | ')}</p>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
-      )}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 };
