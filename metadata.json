@@ -1,0 +1,6 @@
+{
+  "name": "Akheville School",
+  "description": "Modern, professional website for Akheville School (Early Years & Primary) in Lugbe, Abuja. Features admissions portal, academic programs, gallery, and contact form.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
